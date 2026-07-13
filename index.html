@@ -3,29 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chukaev Lab | AI Ecosystem</title>
+    <title>Chukaev Lab | AI Ecosystem (Matrix Style)</title>
     
-    <meta property="og:title" content="Chukaev Lab | AI Ecosystem">
-    <meta property="og:description" content="Промпты, нейросети и автоматизация">
-    <meta property="og:type" content="website">
+    <!-- Кэширование -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
 
     <style>
         :root {
-            --bg-color: #0a0f1d;
-            --card-bg: #131c31;
+            /* Базовая палитра (Matrix-cyber) */
+            --bg-deep: #0a0e1a;
+            --bg-grid: #0d1222;
+            
+            --cyan-glow: rgba(0, 242, 254, 0.2);
+            --purple-glow: rgba(139, 92, 246, 0.2);
+            --neon-cyan: #00f2fe;
+            --neon-purple: #8b5cf6;
+            
             --text-main: #ffffff;
             --text-muted: #64748b;
-            --accent-glow: rgba(0, 242, 254, 0.15);
-            
-            /* Градиенты для кнопок */
-            --grad-1: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-            --grad-2: linear-gradient(135deg, #2bd2ff 0%, #2b67ff 100%);
-            --grad-dark: #1e293b;
         }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
+            background-color: var(--bg-deep);
             color: var(--text-main);
             margin: 0;
             padding: 40px 20px;
@@ -34,6 +36,13 @@
             align-items: center;
             min-height: 100vh;
             box-sizing: border-box;
+            
+            /* Матричный фон */
+            background-image: 
+                linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
+            background-position: center;
         }
 
         .container {
@@ -45,62 +54,83 @@
         /* Аватар в стиле ИИ-интерфейса */
         .avatar-container {
             position: relative;
-            width: 110px;
-            height: 110px;
-            margin: 0 auto 24px auto;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 28px auto;
         }
 
         .avatar {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            background: var(--grad-1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 32px;
-            font-weight: 800;
-            letter-spacing: -1px;
-            box-shadow: 0 0 20px var(--accent-glow);
+            /* ЗАМЕНИ ЭТУ ССЫЛКУ */
+            background-image: url('[ссылка_на_фото_аватара]');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid rgba(0, 242, 254, 0.1);
+            box-shadow: 0 0 25px var(--cyan-glow), inset 0 0 10px var(--purple-glow);
+            z-content: 2;
         }
 
-        .pulse-ring {
+        /* Сложные кольца вокруг аватара */
+        .avatar-rings {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
+            top: -10px; left: -10px; right: -10px; bottom: -10px;
             border-radius: 50%;
-            border: 2px solid #00f2fe;
-            animation: pulse 2s infinite linear;
-            opacity: 0.5;
+            border: 1px solid rgba(0, 242, 254, 0.1);
+            animation: ring-pulse 4s infinite linear;
         }
 
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.2); opacity: 0; }
+        .avatar-rings::before {
+            content: '';
+            position: absolute;
+            top: 5px; left: 5px; right: 5px; bottom: 5px;
+            border-radius: 50%;
+            border: 1px solid rgba(139, 92, 246, 0.1);
+            animation: ring-pulse-inner 3s infinite reverse linear;
+        }
+
+        @keyframes ring-pulse {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.05); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+
+        @keyframes ring-pulse-inner {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(0.98); opacity: 0.3; }
+            100% { transform: scale(1); opacity: 0.1; }
         }
 
         h1 {
-            font-size: 24px;
+            font-size: 26px;
             margin: 0 0 8px 0;
-            font-weight: 700;
+            font-weight: 800;
             letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--neon-cyan) 0%, #fff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
 
         .subtitle {
             color: var(--text-muted);
             font-size: 15px;
-            margin: 0 0 32px 0;
+            margin: 0 0 36px 0;
         }
 
         /* Сетка кнопок */
         .links-grid {
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 18px;
         }
 
+        /* Базовый стиль кнопок (контроль-панель) */
         .btn {
             position: relative;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
             padding: 18px 24px;
             border-radius: 14px;
             text-decoration: none;
@@ -109,32 +139,52 @@
             font-size: 16px;
             transition: all 0.2s ease;
             box-sizing: border-box;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.03);
             overflow: hidden;
+            background: rgba(13, 18, 34, 0.5);
         }
 
-        /* Кнопка 1: Промпты (Акцентная) */
+        /* Кнопка 1: Промпты (Cyan) */
         .btn-prompts {
-            background: var(--grad-1);
-            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+            border-color: rgba(0, 242, 254, 0.1);
+            box-shadow: inset 0 0 10px var(--cyan-glow);
         }
 
-        /* Кнопка 2: Бот (Второй акцент) */
+        /* Кнопка 2: Бот (Purple) */
         .btn-bot {
-            background: var(--grad-2);
-            box-shadow: 0 4px 15px rgba(43, 103, 255, 0.3);
+            border-color: rgba(139, 92, 246, 0.1);
+            box-shadow: inset 0 0 10px var(--purple-glow);
         }
 
-        /* Кнопка 3: Резервная/Дополнительная */
-        .btn-secondary {
-            background: var(--card-bg);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+        /* Кастомный TG иконка */
+        .tg-icon {
+            width: 22px;
+            height: 22px;
+            margin-right: 14px;
+            display: inline-block;
+            background: var(--grad-dark);
+            border-radius: 50%;
+            position: relative;
         }
 
-        /* Эффекты при ховере (для десктопа и плавности) */
+        .tg-icon::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 14px; height: 14px;
+            transform: translate(-50%, -50%);
+            background-color: var(--neon-cyan);
+            border-radius: 50%;
+            /* Микро- wireframe TG лого */
+            background-image: 
+                radial-gradient(circle at center, transparent 30%, var(--bg-deep) 35%, transparent 40%),
+                linear-gradient(var(--bg-deep) 1px, transparent 1px),
+                linear-gradient(90deg, var(--bg-deep) 1px, transparent 1px);
+            background-size: 100% 100%, 3px 3px, 3px 3px;
+        }
+
         .btn:hover {
             transform: translateY(-2px);
-            opacity: 0.95;
         }
 
         .btn:active {
@@ -145,13 +195,14 @@
             position: absolute;
             top: 0;
             right: 12px;
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(139, 92, 246, 0.2);
             font-size: 10px;
-            padding: 2px 6px;
-            border-bottom-left-radius: 6px;
-            border-bottom-right-radius: 6px;
+            padding: 3px 7px;
+            border-bottom-left-radius: 7px;
+            border-bottom-right-radius: 7px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            border: 1px solid rgba(139, 92, 246, 0.1);
         }
     </style>
 </head>
@@ -159,25 +210,22 @@
 
     <div class="container">
         <div class="avatar-container">
-            <div class="pulse-ring"></div>
-            <div class="avatar">CL</div>
+            <div class="avatar-rings"></div>
+            <div class="avatar"></div>
         </div>
 
-        <h1>Chukaev Lab</h1>
-        <div class="subtitle">AI-генерация, промпты и автоматизация</div>
+        <h1>Чукаев Лаб</h1>
+        <div class="subtitle">ИИ-генерация, промпты и автоматизация</div>
 
         <div class="links-grid">
+            <!-- Кнопка ТГ с промптами -->
             <a href="https://telegram.me/ai_prompts_chukaev" class="btn btn-prompts" target="_blank">
-                ТГ-Канал: Нейросети & Промпты
+                <span class="tg-icon"></span>ТГ-Канал: Нейросети & Промпты
             </a>
 
+            <!-- Кнопка Бота -->
             <a href="https://telegram.me/matrixai_robot?start=r-943037293" class="btn btn-bot" target="_blank">
-                <span class="btn-tag">Запустить</span>
-                Matrix AI Бот
-            </a>
-
-            <a href="https://telegram.me/ai_prompts_chukaev" class="btn btn-secondary" target="_blank">
-                Основной Telegram-канал
+                <span class="tg-icon"></span><span class="btn-tag">Запустить</span>Matrix AI Бот
             </a>
         </div>
     </div>
