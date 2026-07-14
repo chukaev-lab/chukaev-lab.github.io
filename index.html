@@ -3,66 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chukaev Lab | AI Ecosystem (Matrix Style)</title>
+    <title>ЧУКАЕВ ЛАБ | AI Ecosystem</title>
     
-    <!-- Кэширование -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <!-- Подключаем кибер-шрифт из Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Jura:wght@600;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
     <style>
         :root {
-            /* Базовая палитра (Matrix-cyber) */
-            --bg-deep: #0a0e1a;
-            --bg-grid: #0d1222;
-            
-            --cyan-glow: rgba(0, 242, 254, 0.2);
-            --purple-glow: rgba(139, 92, 246, 0.2);
+            --bg-base: #030816;
             --neon-cyan: #00f2fe;
             --neon-purple: #8b5cf6;
-            
             --text-main: #ffffff;
-            --text-muted: #64748b;
+            --text-muted: #94a3b8;
         }
 
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-deep);
-            color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
+            padding: 0;
+            background-color: var(--bg-base);
+            font-family: 'Inter', sans-serif;
+            color: var(--text-main);
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            box-sizing: border-box;
-            
-            /* Матричный фон */
+            overflow-x: hidden;
+            /* Кибер-фон с матричной сеткой */
             background-image: 
-                linear-gradient(rgba(0, 242, 254, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(139, 92, 246, 0.03) 1px, transparent 1px);
-            background-size: 30px 30px;
-            background-position: center;
+                radial-gradient(circle at 50% 20%, rgba(0, 242, 254, 0.15) 0%, transparent 40%),
+                radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                linear-gradient(rgba(0, 242, 254, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139, 92, 246, 0.05) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 30px 30px, 30px 30px;
         }
 
         .container {
             width: 100%;
-            max-width: 420px;
-            text-align: center;
+            max-width: 400px;
+            padding: 40px 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        /* Аватар в стиле ИИ-интерфейса */
-        .avatar-container {
+        /* КОМПЛЕКС АВАТАРА И КОЛЕЦ */
+        .avatar-complex {
             position: relative;
-            width: 120px;
-            height: 120px;
-            margin: 0 auto 28px auto;
+            width: 160px;
+            height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 25px;
         }
 
-        .avatar {
+        /* Твое загруженное фото */
+        .avatar-img {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            background-image: url('IMG_20260714_024154_611.jpg');
+            background-size: cover;
+            background-position: center;
+            border: 2px solid var(--neon-cyan);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            z-index: 10;
+        }
+
+        /* Анимированные кольца (Layer 1) */
+        .ring-outer {
+            position: absolute;
             width: 100%;
             height: 100%;
             border-radius: 50%;
+            border: 2px dashed rgba(0, 242, 254, 0.5);
+            animation: spin 15s linear infinite;
+        }
+
+        /* Анимированные кольца (Layer 2) */
+        .ring-inner {
+            position: absolute;
+            width: 135px;
+            height: 135px;
+            border-radius: 50%;
+            border: 2px solid rgba(139, 92, 246, 0.6);
+            border-left: 2px solid transparent;
+            border-right: 2px solid transparent;
+            animation: spin-reverse 10s linear infinite;
+        }
+
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        @keyframes spin-reverse { 100% { transform: rotate(-360deg); } }
+
+        /* ТИТУЛЫ */
+        h1 {
+            font-family: 'Jura', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 0 0 10px 0;
+            letter-spacing: 2px;
+            color: var(--text-main);
+            text-shadow: 0 0 10px var(--neon-cyan);
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        /* КНОПКИ */
+        .btn-stack {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .btn {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            background: rgba(10, 15, 30, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+        }
+
+        /* Стилизация Cyan кнопки */
+        .btn-cyan {
+            border: 1px solid var(--neon-cyan);
+            box-shadow: inset 0 0 15px rgba(0, 242, 254, 0.1), 0 0 15px rgba(0, 242, 254, 0.2);
+        }
+
+        /* Стилизация Purple кнопки */
+        .btn-purple {
+            border: 1px solid var(--neon-purple);
+            box-shadow: inset 0 0 15px rgba(139, 92, 246, 0.1), 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.2);
+        }
+
+        /* Векторная иконка ТГ в кибер-рамке */
+        .icon-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+
+        .btn-cyan .icon-box { border: 1px dashed var(--neon-cyan); }
+        .btn-purple .icon-box { border: 1px dashed var(--neon-purple); }
+
+        .tg-svg {
+            width: 24px;
+            height: 24px;
+            fill: #fff;
+        }
+
+        .btn-text {
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+
+        .tag {
+            position: absolute;
+            top: 0;
+            right: 15px;
+            background: var(--neon-purple);
+            color: #fff;
+            font-size: 10px;
+            padding: 2px 8px;
+            border-radius: 0 0 6px 6px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: 'Jura', sans-serif;
+            font-weight: 700;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Блок аватара с кольцами -->
+        <div class="avatar-complex">
+            <div class="ring-outer"></div>
+            <div class="ring-inner"></div>
+            <div class="avatar-img"></div>
+        </div>
+
+        <h1>Чукаев Лаб</h1>
+        <div class="subtitle">ИИ-генерация, промпты и автоматизация</div>
+
+        <!-- Кнопки -->
+        <div class="btn-stack">
+            
+            <a href="https://telegram.me/ai_prompts_chukaev" class="btn btn-cyan" target="_blank">
+                <div class="icon-box">
+                    <svg class="tg-svg" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.89 8.24l-1.95 9.17c-.15.65-.53.81-1.07.5l-2.95-2.18-1.42 1.37c-.16.16-.29.29-.6.29l.21-3.02 5.5-4.97c.24-.22-.05-.34-.37-.13l-6.8 4.28-2.93-.91c-.64-.2-.65-.64.13-.95l11.45-4.41c.53-.2.99.12.8.96z"/></svg>
+                </div>
+                <div class="btn-text">ТГ-Канал: Нейросети<br>& Промпты</div>
+            </a>
+
+            <a href="https://telegram.me/matrixai_robot?start=r-943037293" class="btn btn-purple" target="_blank">
+                <span class="tag">Запустить</span>
+                <div class="icon-box">
+                    <svg class="tg-svg" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12s5.37 12 12 12 12-5.37 12-12S18.63 0 12 0zm5.89 8.24l-1.95 9.17c-.15.65-.53.81-1.07.5l-2.95-2.18-1.42 1.37c-.16.16-.29.29-.6.29l.21-3.02 5.5-4.97c.24-.22-.05-.34-.37-.13l-6.8 4.28-2.93-.91c-.64-.2-.65-.64.13-.95l11.45-4.41c.53-.2.99.12.8.96z"/></svg>
+                </div>
+                <div class="btn-text">Matrix AI Бот</div>
+            </a>
+
+        </div>
+    </div>
+
+</body>
+</html>            border-radius: 50%;
             /* ЗАМЕНИ ЭТУ ССЫЛКУ */
             background-image: url('[ссылка_на_фото_аватара]');
             background-size: cover;
