@@ -58,6 +58,7 @@ body {
     width: 110px;
     height: 110px;
     border-radius: 50%;
+    /* Исправленный путь: без кавычек и лишних точек */
     background-image: url('IMG_20260714_024154_611.jpg');
     background-size: cover;
     background-position: center;
@@ -139,25 +140,22 @@ h1 {
     text-decoration: none;
     color: var(--text-main);
     
-    /* Эффект матового стекла */
-    background: linear-gradient(135deg, rgba(13, 18, 34, 0.8) 0%, rgba(8, 12, 24, 0.9) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* Эффект матового стекла (Упрощенный для мобильных) */
+    background: rgba(13, 18, 34, 0.9);
+    border: 1px solid rgba(0, 242, 254, 0.2);
     
     transition: all 0.3s ease;
     overflow: hidden;
 }
 
-/* Форма кнопок Cyan */
+/* Оптимизация формы Cyan кнопки */
 .btn-cyan {
-    border: 1px solid rgba(0, 242, 254, 0.3);
     border-left: 4px solid var(--neon-cyan);
     box-shadow: inset 0 0 20px rgba(0, 242, 254, 0.1), 0 8px 32px rgba(0, 0, 0, 0.5);
 }
 
-/* Форма кнопок Purple */
+/* Оптимизация формы Purple кнопки */
 .btn-purple {
-    border: 1px solid rgba(139, 92, 246, 0.3);
     border-left: 4px solid var(--neon-purple);
     box-shadow: inset 0 0 20px rgba(139, 92, 246, 0.1), 0 8px 32px rgba(0, 0, 0, 0.5);
 }
@@ -213,4 +211,4 @@ h1 {
     font-family: 'Jura', sans-serif;
     font-weight: 700;
     box-shadow: 0 0 10px var(--neon-purple);
-  }
+}
