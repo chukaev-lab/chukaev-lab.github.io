@@ -1,0 +1,1241 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#050506">
+  <meta name="description" content="KVANTYRA AI — фото, видео, музыка, тренды и AI-инструменты в одном Telegram-приложении.">
+  <meta property="og:title" content="KVANTYRA AI">
+  <meta property="og:description" content="Идея в голове. Результат в KVANTYRA.">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary">
+  <title>KVANTYRA AI</title>
+
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="./favicon-192.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+  <link rel="shortcut icon" href="./favicon.ico">
+
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #050506;
+      --surface: #0c0c10;
+      --surface-2: #121218;
+      --text: #f7f7f9;
+      --muted: #9a9aa5;
+      --muted-2: #62626d;
+      --line: rgba(255,255,255,.085);
+      --line-2: rgba(255,255,255,.13);
+      --violet: #9d75ff;
+      --violet-2: #7758ff;
+      --pink: #dd6dff;
+      --content: 1040px;
+      --ease: cubic-bezier(.22,.78,.22,1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: var(--bg); }
+    body {
+      min-height: 100vh;
+      margin: 0;
+      overflow-x: hidden;
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", Inter, Arial, sans-serif;
+      background:
+        radial-gradient(900px 520px at 50% -140px, rgba(135,88,255,.16), transparent 62%),
+        radial-gradient(520px 420px at 100% 34%, rgba(219,93,255,.055), transparent 70%),
+        #050506;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      opacity: .16;
+      background-image: radial-gradient(rgba(255,255,255,.13) .5px, transparent .5px);
+      background-size: 22px 22px;
+      -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.42), transparent 54%);
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,.42), transparent 54%);
+    }
+
+    a, button { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; }
+    img { max-width: 100%; }
+    button { font: inherit; }
+
+    .shell {
+      width: min(100%, calc(var(--content) + 40px));
+      margin-inline: auto;
+      padding-inline: 20px;
+    }
+
+    /* Product bar */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      padding-top: max(10px, env(safe-area-inset-top));
+      pointer-events: none;
+    }
+
+    .topbar-inner {
+      min-height: 62px;
+      padding: 9px 10px 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 20px;
+      background: rgba(8,8,12,.72);
+      box-shadow: 0 18px 50px rgba(0,0,0,.30);
+      backdrop-filter: blur(24px) saturate(150%);
+      -webkit-backdrop-filter: blur(24px) saturate(150%);
+      pointer-events: auto;
+    }
+
+    .brand {
+      min-width: 0;
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      text-decoration: none;
+    }
+
+    .brand-logo {
+      width: 39px;
+      height: 39px;
+      flex: 0 0 auto;
+      display: block;
+      object-fit: cover;
+      border-radius: 12px;
+      background: #101015;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.09), 0 8px 28px rgba(108,66,255,.18);
+    }
+
+    .brand-name {
+      display: block;
+      font-size: 13px;
+      font-weight: 830;
+      line-height: 1;
+      letter-spacing: -.018em;
+      white-space: nowrap;
+    }
+
+    .top-open,
+    .primary,
+    .video-cover,
+    .install-primary,
+    .install-secondary,
+    .resource-card {
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .top-open,
+    .primary,
+    .install-primary,
+    .install-secondary,
+    .resource-card {
+      text-decoration: none;
+      transition: transform .2s var(--ease), background .2s ease, border-color .2s ease, filter .2s ease;
+    }
+
+    .top-open {
+      min-height: 42px;
+      padding-inline: 16px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 11px;
+      font-weight: 800;
+      background: rgba(255,255,255,.065);
+    }
+    .top-open:hover { background: rgba(255,255,255,.10); }
+
+    /* Hero */
+    .hero {
+      position: relative;
+      padding: clamp(90px, 12vw, 146px) 0 clamp(82px, 10vw, 126px);
+      text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 17%;
+      width: min(720px, 92vw);
+      aspect-ratio: 1.6;
+      transform: translateX(-50%);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(150,100,255,.14), rgba(117,76,255,.045) 45%, transparent 72%);
+      filter: blur(18px);
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      width: min(850px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero-kicker {
+      width: fit-content;
+      min-height: 31px;
+      margin: 0 auto 22px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 999px;
+      color: #aaaab4;
+      font-size: 9px;
+      font-weight: 780;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.025);
+    }
+
+    .hero-kicker::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #a77fff;
+      box-shadow: 0 0 14px rgba(167,127,255,.72);
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(52px, 8.5vw, 92px);
+      line-height: .96;
+      letter-spacing: -.072em;
+      font-weight: 860;
+    }
+
+    .hero h1 .line { display: block; }
+    .hero h1 .accent {
+      display: block;
+      padding-right: .055em;
+      color: transparent;
+      background: linear-gradient(102deg, #fff 0%, #dcd2ff 40%, #9d78ff 72%, #e36fff 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+    }
+
+    .hero-copy {
+      max-width: 620px;
+      margin: 25px auto 0;
+      color: #a0a0aa;
+      font-size: clamp(15px, 2vw, 18px);
+      line-height: 1.58;
+      letter-spacing: -.012em;
+    }
+    .hero-copy strong { color: #f1f1f4; font-weight: 740; }
+
+    .hero-actions {
+      width: min(430px, 100%);
+      margin: 31px auto 0;
+      display: grid;
+      gap: 11px;
+    }
+
+    .primary {
+      min-height: 60px;
+      padding: 0 22px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.52);
+      border-radius: 18px;
+      color: #08080c;
+      font-size: 13px;
+      font-weight: 840;
+      letter-spacing: -.01em;
+      background: linear-gradient(108deg, #fff 0%, #e7e0ff 47%, #b28cff 100%);
+      box-shadow: 0 18px 56px rgba(110,74,240,.18);
+    }
+    .primary:hover { transform: translateY(-2px); filter: brightness(1.035); }
+
+    .hero-link {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      color: #aaaab4;
+      font-size: 11px;
+      font-weight: 760;
+      text-decoration: none;
+    }
+    .hero-link::after { content: "↓"; color: #777781; }
+
+    .hero-tools {
+      margin: 35px auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0;
+      color: #686873;
+      font-size: 10px;
+      font-weight: 720;
+    }
+    .hero-tools span { display: inline-flex; align-items: center; }
+    .hero-tools span:not(:last-child)::after {
+      content: "·";
+      margin-inline: 9px;
+      color: #3f3f48;
+    }
+
+    /* Video section */
+    .videos {
+      padding: clamp(74px, 9vw, 112px) 0 clamp(80px, 9vw, 116px);
+    }
+
+    .videos-head {
+      width: min(720px, 100%);
+      margin: 0 auto 36px;
+      text-align: center;
+    }
+
+    .section-label {
+      margin: 0 0 12px;
+      color: #9f7dff;
+      font-size: 9px;
+      font-weight: 830;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+
+    .videos h2,
+    .install h2,
+    .resources h2 {
+      margin: 0;
+      font-size: clamp(34px, 5.2vw, 54px);
+      line-height: 1.02;
+      letter-spacing: -.055em;
+      font-weight: 845;
+    }
+
+    .video-grid {
+      width: min(870px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .video-card {
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 28px;
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 28px 80px rgba(0,0,0,.20);
+    }
+
+    .video-head {
+      min-height: 72px;
+      padding: 16px 17px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .video-head strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.25;
+      letter-spacing: -.025em;
+    }
+
+    .video-head small {
+      display: block;
+      margin-top: 4px;
+      color: #74747e;
+      font-size: 9px;
+      font-weight: 690;
+    }
+
+    .video-index {
+      width: 34px;
+      height: 34px;
+      flex: 0 0 auto;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 12px;
+      color: #b9a5ff;
+      font-size: 9px;
+      font-weight: 820;
+      background: rgba(255,255,255,.025);
+    }
+
+    .video-wrap {
+      position: relative;
+      margin: 0 9px 9px;
+      overflow: hidden;
+      border-radius: 21px;
+      background: #030304;
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.025);
+    }
+
+    .native-video {
+      width: 100%;
+      aspect-ratio: 9 / 16;
+      max-height: 635px;
+      display: block;
+      object-fit: contain;
+      background: #030304;
+    }
+
+    .video-cover {
+      position: absolute;
+      inset: 0;
+      z-index: 3;
+      width: 100%;
+      padding: 16px;
+      overflow: hidden;
+      border: 0;
+      display: flex;
+      flex-direction: column;
+      color: #fff;
+      text-align: left;
+      cursor: pointer;
+      background: #09090e;
+      transition: opacity .24s ease, visibility .24s ease, transform .24s var(--ease);
+      isolation: isolate;
+    }
+
+    .video-cover:hover { transform: scale(1.006); }
+    .video-cover.is-hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+
+    .cover-top {
+      position: relative;
+      z-index: 6;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cover-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: #dfdfe5;
+      font-size: 9px;
+      font-weight: 810;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .cover-logo {
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.1), 0 8px 22px rgba(105,64,230,.18);
+    }
+
+    .duration {
+      min-height: 27px;
+      padding: 0 9px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.085);
+      border-radius: 999px;
+      color: #8c8c96;
+      font-size: 9px;
+      font-weight: 740;
+      background: rgba(255,255,255,.03);
+    }
+
+    .preview-art {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .preview-art::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(5,5,8,.05), rgba(5,5,8,.12) 52%, rgba(5,5,8,.85) 100%);
+    }
+
+    /* Preview 01 — creation interface */
+    .preview-create {
+      background:
+        radial-gradient(circle at 50% 42%, rgba(148,96,255,.28), transparent 25%),
+        radial-gradient(circle at 82% 12%, rgba(211,92,255,.10), transparent 25%),
+        linear-gradient(160deg, #151321 0%, #09090e 55%, #050507 100%);
+    }
+
+    .create-window {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: 78%;
+      transform: translate(-50%,-50%);
+      padding: 13px;
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 22px;
+      background: rgba(13,13,19,.78);
+      box-shadow: 0 30px 70px rgba(0,0,0,.34), 0 0 42px rgba(116,76,255,.09);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .create-bar {
+      height: 8px;
+      width: 42%;
+      border-radius: 999px;
+      background: rgba(255,255,255,.1);
+    }
+
+    .create-media {
+      position: relative;
+      height: 154px;
+      margin-top: 12px;
+      overflow: hidden;
+      border-radius: 16px;
+      background:
+        radial-gradient(circle at 54% 34%, rgba(255,255,255,.16), transparent 12%),
+        linear-gradient(135deg, rgba(122,86,255,.75), rgba(218,92,255,.30) 55%, rgba(24,24,34,.96));
+    }
+
+    .create-media::before,
+    .create-media::after {
+      content: "";
+      position: absolute;
+      bottom: -24px;
+      width: 120px;
+      height: 140px;
+      border-radius: 60% 60% 22px 22px;
+      background: rgba(9,9,14,.68);
+      filter: blur(.2px);
+    }
+    .create-media::before { left: 18%; transform: rotate(-10deg); }
+    .create-media::after { right: 8%; transform: rotate(12deg); opacity: .72; }
+
+    .create-fields {
+      margin-top: 10px;
+      display: grid;
+      gap: 7px;
+    }
+    .create-fields span {
+      height: 11px;
+      display: block;
+      border-radius: 999px;
+      background: rgba(255,255,255,.07);
+    }
+    .create-fields span:nth-child(2) { width: 74%; }
+    .create-fields span:nth-child(3) { width: 54%; }
+
+    /* Preview 02 — add to home screen */
+    .preview-install {
+      background:
+        radial-gradient(circle at 50% 44%, rgba(149,105,255,.26), transparent 25%),
+        linear-gradient(165deg, #14121f 0%, #09090e 57%, #050507 100%);
+    }
+
+    .phone-demo {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      width: 58%;
+      aspect-ratio: .56;
+      transform: translate(-50%,-50%);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 34px;
+      background:
+        radial-gradient(circle at 50% 33%, rgba(140,96,255,.23), transparent 28%),
+        linear-gradient(180deg, #12121a, #07070b);
+      box-shadow: 0 35px 70px rgba(0,0,0,.34), 0 0 40px rgba(112,72,240,.1);
+    }
+
+    .phone-demo::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 11px;
+      width: 38%;
+      height: 13px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: #050507;
+    }
+
+    .phone-icon {
+      position: absolute;
+      left: 50%;
+      top: 35%;
+      width: 66px;
+      height: 66px;
+      transform: translate(-50%,-50%);
+      border-radius: 20px;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.11), 0 18px 44px rgba(112,72,240,.24);
+    }
+
+    .phone-label {
+      position: absolute;
+      left: 50%;
+      top: 48%;
+      transform: translateX(-50%);
+      color: #d7d7dd;
+      font-size: 8px;
+      font-weight: 760;
+      white-space: nowrap;
+    }
+
+    .home-action {
+      position: absolute;
+      left: 50%;
+      bottom: 20%;
+      width: 76%;
+      min-height: 38px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 13px;
+      color: #0b0b10;
+      font-size: 8px;
+      font-weight: 820;
+      background: linear-gradient(105deg, #fff, #ded6ff 58%, #ad8aff);
+    }
+
+    .cover-center {
+      position: relative;
+      z-index: 7;
+      flex: 1;
+      display: grid;
+      place-items: center;
+    }
+
+    .play {
+      width: 74px;
+      height: 74px;
+      display: grid;
+      place-items: center;
+      border: 1px solid rgba(255,255,255,.56);
+      border-radius: 50%;
+      color: #08080c;
+      background: rgba(247,247,250,.93);
+      box-shadow: 0 22px 60px rgba(0,0,0,.28), 0 0 0 9px rgba(255,255,255,.035);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .play svg { width: 29px; height: 29px; margin-left: 4px; }
+
+    .cover-bottom {
+      position: relative;
+      z-index: 7;
+      padding-top: 18px;
+    }
+    .cover-bottom small {
+      display: block;
+      margin-bottom: 7px;
+      color: #b39aff;
+      font-size: 9px;
+      font-weight: 820;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+    .cover-bottom strong {
+      display: block;
+      max-width: 280px;
+      font-size: clamp(19px, 3vw, 26px);
+      line-height: 1.04;
+      letter-spacing: -.04em;
+      font-weight: 845;
+    }
+
+    /* Install */
+    .install {
+      padding: clamp(72px, 9vw, 112px) 0 clamp(78px, 9vw, 112px);
+    }
+
+    .install-panel {
+      width: min(860px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(300px, .95fr);
+      align-items: center;
+      gap: 48px;
+    }
+
+    .install-visual {
+      position: relative;
+      min-height: 330px;
+      display: grid;
+      place-items: center;
+    }
+
+    .install-glow {
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(154,106,255,.24), transparent 68%);
+      filter: blur(12px);
+    }
+
+    .install-device {
+      position: relative;
+      width: 208px;
+      aspect-ratio: .59;
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 39px;
+      background:
+        radial-gradient(circle at 50% 31%, rgba(145,94,255,.20), transparent 30%),
+        linear-gradient(180deg, #12121a, #08080c);
+      box-shadow: 0 36px 90px rgba(0,0,0,.34), 0 0 52px rgba(111,71,240,.08);
+      transform: rotate(-4deg);
+    }
+
+    .install-device::before {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 12px;
+      width: 72px;
+      height: 16px;
+      transform: translateX(-50%);
+      border-radius: 999px;
+      background: #050506;
+    }
+
+    .install-device img {
+      position: absolute;
+      left: 50%;
+      top: 38%;
+      width: 78px;
+      height: 78px;
+      transform: translate(-50%,-50%);
+      border-radius: 23px;
+      object-fit: cover;
+      box-shadow: 0 0 0 1px rgba(255,255,255,.11), 0 20px 48px rgba(112,72,240,.24);
+    }
+
+    .install-device strong {
+      position: absolute;
+      left: 50%;
+      top: 54%;
+      transform: translateX(-50%);
+      font-size: 11px;
+      white-space: nowrap;
+    }
+
+    .install-device span {
+      position: absolute;
+      left: 50%;
+      bottom: 20%;
+      width: 72%;
+      min-height: 42px;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      color: #0b0b0f;
+      font-size: 9px;
+      font-weight: 830;
+      background: linear-gradient(105deg, #fff, #e0d8ff 56%, #af8bff);
+    }
+
+    .install-copy p:last-of-type {
+      max-width: 470px;
+      margin: 17px 0 0;
+      color: #9797a1;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .install-actions {
+      width: min(390px, 100%);
+      margin-top: 25px;
+      display: grid;
+      gap: 9px;
+    }
+
+    .install-primary,
+    .install-secondary {
+      min-height: 58px;
+      padding: 0 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 17px;
+      font-size: 12px;
+      font-weight: 820;
+      text-align: center;
+    }
+
+    .install-primary {
+      border: 1px solid rgba(255,255,255,.5);
+      color: #08080c;
+      background: linear-gradient(108deg, #fff 0%, #e7e0ff 48%, #b28cff 100%);
+      box-shadow: 0 16px 46px rgba(110,74,240,.16);
+    }
+    .install-primary:hover { transform: translateY(-2px); filter: brightness(1.035); }
+
+    .install-secondary {
+      border: 1px solid rgba(255,255,255,.085);
+      color: #d9d9df;
+      background: rgba(255,255,255,.03);
+    }
+    .install-secondary:hover { background: rgba(255,255,255,.06); }
+
+    /* Bottom resources */
+    .resources {
+      padding: 46px 0 20px;
+    }
+
+    .resources-head {
+      width: min(860px, 100%);
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .resources-head p:last-child {
+      max-width: 330px;
+      margin: 0 0 2px;
+      color: #777781;
+      font-size: 11px;
+      line-height: 1.5;
+      text-align: right;
+    }
+
+    .resource-grid {
+      width: min(860px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0,1fr));
+      gap: 12px;
+    }
+
+    .resource-card {
+      position: relative;
+      min-height: 154px;
+      padding: 20px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      border: 1px solid rgba(255,255,255,.085);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at 100% 0%, rgba(149,100,255,.11), transparent 36%),
+        rgba(255,255,255,.028);
+    }
+
+    .resource-card:nth-child(2) {
+      background:
+        radial-gradient(circle at 100% 0%, rgba(219,92,255,.09), transparent 36%),
+        rgba(255,255,255,.028);
+    }
+
+    .resource-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(255,255,255,.14);
+      background-color: rgba(255,255,255,.042);
+    }
+
+    .resource-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+    }
+
+    .resource-badge {
+      min-height: 29px;
+      padding: 0 10px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,.075);
+      border-radius: 999px;
+      color: #9b9ba5;
+      font-size: 8px;
+      font-weight: 800;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      background: rgba(255,255,255,.025);
+    }
+
+    .resource-arrow {
+      width: 35px;
+      height: 35px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      color: #cfcfd7;
+      background: rgba(255,255,255,.055);
+      font-size: 16px;
+    }
+
+    .resource-card strong {
+      display: block;
+      margin-top: 24px;
+      font-size: 18px;
+      line-height: 1.16;
+      letter-spacing: -.035em;
+    }
+
+    .resource-card small {
+      display: block;
+      margin-top: 7px;
+      color: #81818c;
+      font-size: 10px;
+      line-height: 1.5;
+    }
+
+    footer {
+      padding: 42px 20px max(38px, env(safe-area-inset-bottom));
+      color: #51515b;
+      font-size: 9px;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    footer strong { color: #767680; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity .68s var(--ease), transform .68s var(--ease);
+    }
+    .reveal.is-visible { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      .shell { padding-inline: 14px; }
+      .topbar-inner { min-height: 58px; border-radius: 18px; }
+      .top-open { min-height: 40px; padding-inline: 14px; }
+
+      .hero {
+        padding-top: 92px;
+        padding-bottom: 88px;
+      }
+      .hero h1 {
+        font-size: clamp(45px, 13.7vw, 64px);
+        line-height: .98;
+      }
+      .hero-copy { max-width: 355px; font-size: 15px; }
+      .hero-actions { width: min(390px, 100%); }
+      .hero-tools { max-width: 390px; }
+
+      .videos { padding-top: 76px; }
+      .videos-head { margin-bottom: 28px; }
+      .video-grid { grid-template-columns: 1fr; width: min(460px, 100%); gap: 18px; }
+      .video-card { border-radius: 27px; }
+      .video-wrap { border-radius: 20px; }
+      .video-cover { padding: 16px; }
+      .cover-bottom strong { font-size: 23px; }
+
+      .install-panel {
+        grid-template-columns: 1fr;
+        gap: 16px;
+        text-align: center;
+      }
+      .install-visual { min-height: 300px; }
+      .install-copy p:last-of-type { margin-inline: auto; }
+      .install-actions { margin-inline: auto; }
+
+      .resources { padding-top: 38px; }
+      .resources-head {
+        align-items: start;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 17px;
+      }
+      .resources-head p:last-child { max-width: 100%; text-align: left; }
+      .resource-grid { grid-template-columns: 1fr; }
+      .resource-card { min-height: 142px; }
+    }
+
+    @media (max-width: 430px) {
+      .top-open span { display: none; }
+      .top-open::after { content: "Открыть"; }
+      .hero { padding-top: 86px; }
+      .hero h1 { font-size: clamp(43px, 13.2vw, 57px); }
+      .hero-kicker { margin-bottom: 20px; }
+      .videos h2, .install h2, .resources h2 { font-size: 36px; }
+      .video-head strong { font-size: 13px; }
+      .create-window { width: 80%; }
+      .phone-demo { width: 60%; }
+      .install-device { width: 192px; }
+      .resource-card strong { font-size: 17px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+      }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar shell">
+    <div class="topbar-inner">
+      <a class="brand" href="#top" aria-label="KVANTYRA AI — наверх">
+        <img class="brand-logo" src="/static/kvantyra_avatar_new.png?v=logo-v3" alt="KVANTYRA AI" onerror="this.onerror=null;this.src='./favicon-192.png';">
+        <span class="brand-name">KVANTYRA AI</span>
+      </a>
+      <a class="top-open" href="https://t.me/kvantyra_ai_bot" target="_blank" rel="noopener noreferrer"><span>Открыть KVANTYRA</span></a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero shell">
+      <div class="hero-inner reveal">
+        <div class="hero-kicker">Creative intelligence · Telegram</div>
+        <h1>
+          <span class="line">Идея в голове.</span>
+          <span class="accent">Результат в KVANTYRA.</span>
+        </h1>
+        <p class="hero-copy"><strong>Фото, видео, музыка, тренды и AI-инструменты</strong> — в одном приложении. Без лишних переходов между сервисами.</p>
+
+        <div class="hero-actions">
+          <a class="primary" href="https://t.me/kvantyra_ai_bot" target="_blank" rel="noopener noreferrer">Открыть KVANTYRA AI</a>
+          <a class="hero-link" href="#videos">Посмотреть, как это работает</a>
+        </div>
+
+        <div class="hero-tools" aria-label="Возможности KVANTYRA AI">
+          <span>Фото</span><span>Видео</span><span>Музыка</span><span>Тренды</span><span>AI-инструменты</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="videos shell" id="videos" aria-labelledby="videosTitle">
+      <div class="videos-head reveal">
+        <p class="section-label">Как это работает</p>
+        <h2 id="videosTitle">Два коротких видео.<br>И можно создавать.</h2>
+      </div>
+
+      <div class="video-grid">
+        <article class="video-card reveal">
+          <div class="video-head">
+            <div>
+              <strong>Создание в KVANTYRA AI</strong>
+              <small>От идеи до готового результата</small>
+            </div>
+            <span class="video-index">01</span>
+          </div>
+          <div class="video-wrap">
+            <video class="native-video" controls playsinline preload="metadata" aria-label="Видео: работа с KVANTYRA AI">
+              <source src="./assets/videos/kvantyra-guide.mp4" type="video/mp4">
+              Ваш браузер не поддерживает видео.
+            </video>
+
+            <button class="video-cover" type="button" aria-label="Смотреть: создание в KVANTYRA AI">
+              <span class="preview-art preview-create" aria-hidden="true">
+                <span class="create-window">
+                  <span class="create-bar"></span>
+                  <span class="create-media"></span>
+                  <span class="create-fields"><span></span><span></span><span></span></span>
+                </span>
+              </span>
+              <span class="cover-top">
+                <span class="cover-brand">
+                  <img class="cover-logo" src="/static/kvantyra_avatar_new.png?v=logo-v3" alt="" onerror="this.onerror=null;this.src='./favicon-192.png';">
+                  KVANTYRA AI
+                </span>
+                <span class="duration">Видео</span>
+              </span>
+              <span class="cover-center">
+                <span class="play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="m9 7 8 5-8 5V7Z"/></svg>
+                </span>
+              </span>
+              <span class="cover-bottom">
+                <small>Видео 01</small>
+                <strong>Как создавать в KVANTYRA</strong>
+              </span>
+            </button>
+          </div>
+        </article>
+
+        <article class="video-card reveal">
+          <div class="video-head">
+            <div>
+              <strong>KVANTYRA на телефоне</strong>
+              <small>Быстрый доступ с главного экрана</small>
+            </div>
+            <span class="video-index">02</span>
+          </div>
+          <div class="video-wrap">
+            <video class="native-video" controls playsinline preload="metadata" aria-label="Видео: установка KVANTYRA AI на телефон">
+              <source src="./assets/videos/kvantyra-install.mp4" type="video/mp4">
+              Ваш браузер не поддерживает видео.
+            </video>
+
+            <button class="video-cover" type="button" aria-label="Смотреть: как установить KVANTYRA AI на телефон">
+              <span class="preview-art preview-install" aria-hidden="true">
+                <span class="phone-demo">
+                  <img class="phone-icon" src="/static/kvantyra_avatar_new.png?v=logo-v3" alt="" onerror="this.onerror=null;this.src='./favicon-192.png';">
+                  <span class="phone-label">KVANTYRA AI</span>
+                  <span class="home-action">Добавить на экран</span>
+                </span>
+              </span>
+              <span class="cover-top">
+                <span class="cover-brand">
+                  <img class="cover-logo" src="/static/kvantyra_avatar_new.png?v=logo-v3" alt="" onerror="this.onerror=null;this.src='./favicon-192.png';">
+                  KVANTYRA AI
+                </span>
+                <span class="duration">Видео</span>
+              </span>
+              <span class="cover-center">
+                <span class="play" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path fill="currentColor" d="m9 7 8 5-8 5V7Z"/></svg>
+                </span>
+              </span>
+              <span class="cover-bottom">
+                <small>Видео 02</small>
+                <strong>Как добавить на главный экран</strong>
+              </span>
+            </button>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="install shell" id="install" aria-labelledby="installTitle">
+      <div class="install-panel reveal">
+        <div class="install-visual" aria-hidden="true">
+          <div class="install-glow"></div>
+          <div class="install-device">
+            <img src="/static/kvantyra_avatar_new.png?v=logo-v3" alt="" onerror="this.onerror=null;this.src='./favicon-192.png';">
+            <strong>KVANTYRA AI</strong>
+            <span>Открывать одним нажатием</span>
+          </div>
+        </div>
+
+        <div class="install-copy">
+          <p class="section-label">Быстрый доступ</p>
+          <h2 id="installTitle">Хочешь KVANTYRA как приложение?</h2>
+          <p>Открой короткую инструкцию: там показано, как правильно открыть ссылку и добавить KVANTYRA AI на главный экран телефона.</p>
+
+          <div class="install-actions">
+            <a class="install-primary" href="https://t.me/ai_prompts_chukaev/3218?single" target="_blank" rel="noopener noreferrer">Посмотреть инструкцию по установке</a>
+            <a class="install-secondary" href="https://t.me/kvantyra_ai_bot" target="_blank" rel="noopener noreferrer">Открыть KVANTYRA AI сейчас</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="resources shell" aria-labelledby="resourcesTitle">
+      <div class="resources-head reveal">
+        <div>
+          <p class="section-label">Полезное</p>
+          <h2 id="resourcesTitle">Продолжить дальше</h2>
+        </div>
+        <p>Промпты, идеи и обучение — отдельные направления проекта KVANTYRA.</p>
+      </div>
+
+      <div class="resource-grid">
+        <a class="resource-card reveal" href="https://telegram.me/ai_prompts_chukaev" target="_blank" rel="noopener noreferrer">
+          <span class="resource-top">
+            <span class="resource-badge">Telegram-канал</span>
+            <span class="resource-arrow">↗</span>
+          </span>
+          <span>
+            <strong>Нейросети &amp; Промпты</strong>
+            <small>Авторские промпты, идеи, примеры и разборы для генераций.</small>
+          </span>
+        </a>
+
+        <a class="resource-card reveal" href="https://t.me/tribute/app?startapp=sXKC" target="_blank" rel="noopener noreferrer">
+          <span class="resource-top">
+            <span class="resource-badge">Обучение</span>
+            <span class="resource-arrow">↗</span>
+          </span>
+          <span>
+            <strong>Создание AI-роликов</strong>
+            <small>Пошаговое обучение созданию собственных роликов с нейросетями.</small>
+          </span>
+        </a>
+      </div>
+    </section>
+  </main>
+
+  <footer><strong>KVANTYRA AI</strong> · Creative Intelligence · 2026</footer>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      const revealItems = document.querySelectorAll(".reveal");
+
+      if (reduced || !("IntersectionObserver" in window)) {
+        revealItems.forEach((item) => item.classList.add("is-visible"));
+      } else {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          });
+        }, { threshold: .08 });
+        revealItems.forEach((item) => observer.observe(item));
+      }
+
+      const formatDuration = (seconds) => {
+        if (!Number.isFinite(seconds) || seconds <= 0) return "Видео";
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60).toString().padStart(2, "0");
+        return `${mins}:${secs}`;
+      };
+
+      document.querySelectorAll(".video-wrap").forEach((wrap) => {
+        const video = wrap.querySelector("video");
+        const cover = wrap.querySelector(".video-cover");
+        const duration = wrap.querySelector(".duration");
+        if (!video || !cover) return;
+
+        video.addEventListener("loadedmetadata", () => {
+          if (duration) duration.textContent = formatDuration(video.duration);
+        });
+
+        cover.addEventListener("click", () => {
+          video.controls = true;
+          const playRequest = video.play();
+          if (playRequest && typeof playRequest.catch === "function") playRequest.catch(() => {});
+        });
+
+        const hideCover = () => cover.classList.add("is-hidden");
+        video.addEventListener("play", hideCover);
+        video.addEventListener("playing", hideCover);
+        video.addEventListener("ended", () => cover.classList.remove("is-hidden"));
+      });
+    })();
+  </script>
+</body>
+</html>
